@@ -1,0 +1,36 @@
+#!/bin/bash
+
+DEST=${GIT_ARCHIVE_FOLDER:-~/Dropbox/git}
+
+usage() {
+    echo "usage: git dropbox <repo>"
+    echo
+    echo "You can also run this command in the root of a local repo."
+}
+
+# Find a good remote
+REMOTE="$1"
+IN_REPO=false
+if [ "$REMOTE" = "" ]; then
+    if [ ! -d ".git" ]; then
+        echo "You must specify a repository to archive."
+        usage
+        exit 1
+    fi
+    IN_REPO=true
+    REMOTE=`git remote show -n origin | grep Fetch | cut -f5 -d ' '`
+fi
+
+# Figure out destination folder.
+REPO_NAME=`basename $REMOTE | sed s/\.git$//`
+DEST="$DEST/$REPO_NAME.git"
+
+# Clone it
+echo "Cloning $REMOTE into $DEST."
+git clone --bare $REMOTE $DEST &> /dev/null
+
+# Add the archive as remote
+if $IN_REPO; then
+    echo "Adding $DEST as dropbox remote."
+    git remote add dropbox $DEST
+fi

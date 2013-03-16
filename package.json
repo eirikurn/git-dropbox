@@ -1,0 +1,20 @@
+{
+  "name": "git-dropbox",
+  "version": "0.1.0",
+  "description": "Archives git repositories to your dropbox folder.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eirikurn/git-dropbox.git"
+  },
+  "keywords": [
+    "git",
+    "archive",
+    "dropbox"
+  ],
+  "bin": {
+    "git-dropbox": "./bin/git-dropbox"
+  },
+  "author": "Eirikur Nilsson",
+  "license": "MIT"
+}
